@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdicaoNotaActivity">
+
+    <EditText
+        android:id="@+id/texto_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="464dp"
+        android:layout_weight="2"
+        android:ems="10"
+        android:hint="Digite seu texto"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+
+
+    <Button
+        android:id="@+id/buttonSalvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="salvarNota"
+        android:text="Salvar" />
+</LinearLayout>

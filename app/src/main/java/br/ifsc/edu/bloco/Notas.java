@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +23,11 @@ public class Notas {
 
     public Notas(Context c) {
         this.contexto = c;
-        Log.e("CHEGOU", "aEEEE");
         try {
             PersistenceHelper persistenceHelper = PersistenceHelper.getInstance(c);
             bd = persistenceHelper.getWritableDatabase();
         } catch (Exception e) {
-            Log.e("CHEGOU", "ERRO" + e.getMessage());
+
         }
 
     }
@@ -41,8 +41,11 @@ public class Notas {
 
     private List<String> convertEntitiesForString(List<Nota> notas) {
         List<String> stringNotas = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         for (Nota n : notas) {
-            stringNotas.add(n.getNome() + "\n CRIAÇÃO: " + n.getDataCriacao() + "\n ALTERAÇÃO: " + n.getDataModificacao());
+            String dataCriacao = dateFormat.format(n.getDataCriacao());
+            String dataModificacao = dateFormat.format(n.getDataModificacao());
+            stringNotas.add(n.getNome() + "\n CRIAÇÃO: " +dataCriacao + "\n ALTERAÇÃO: " + dataModificacao);
         }
         return stringNotas;
     }

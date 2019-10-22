@@ -24,7 +24,7 @@ public class PersistenceHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Notas.SCRIPT_CRIACAO_TABELA_VEICULOS);
+        db.execSQL(Notas.SCRIPT_CRIACAO_TABELA_BLOCO);
     }
 
     @Override

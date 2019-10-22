@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +14,7 @@ public class Notas {
     SQLiteDatabase bd;
     Context contexto;
     static String NOME_TABELA = "bloconotas";
-    static final String SCRIPT_CRIACAO_TABELA_VEICULOS = "CREATE TABLE IF NOT EXISTS bloconotas "
+    static final String SCRIPT_CRIACAO_TABELA_BLOCO = "CREATE TABLE IF NOT EXISTS bloconotas "
             + "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "texto TEXT NOT NULL, "
             + "dataCriacao NUMERIC,"
@@ -35,7 +34,7 @@ public class Notas {
     public List<String> recuperarTodos() {
         String queryReturnAll = "SELECT * FROM " + NOME_TABELA;
         Cursor cursor = bd.rawQuery(queryReturnAll, null);
-        List<Nota> notas = construirVeiculoPorCursor(cursor);
+        List<Nota> notas = construirNotaPorCursor(cursor);
         return convertEntitiesForString(notas);
     }
 
@@ -45,7 +44,7 @@ public class Notas {
         for (Nota n : notas) {
             String dataCriacao = dateFormat.format(n.getDataCriacao());
             String dataModificacao = dateFormat.format(n.getDataModificacao());
-            stringNotas.add(n.getNome() + "\n CRIAÇÃO: " +dataCriacao + "\n ALTERAÇÃO: " + dataModificacao);
+            stringNotas.add(n.getNome() + "\n CRIAÇÃO: " + dataCriacao + "\n ALTERAÇÃO: " + dataModificacao);
         }
         return stringNotas;
     }
@@ -53,11 +52,11 @@ public class Notas {
     public List<Nota> recuperarTodasNotas() {
         String queryReturnAll = "SELECT * FROM " + NOME_TABELA;
         Cursor cursor = bd.rawQuery(queryReturnAll, null);
-        List<Nota> notas = construirVeiculoPorCursor(cursor);
+        List<Nota> notas = construirNotaPorCursor(cursor);
         return notas;
     }
 
-    private List<Nota> construirVeiculoPorCursor(Cursor cursor) {
+    private List<Nota> construirNotaPorCursor(Cursor cursor) {
         List<Nota> notas = new ArrayList<Nota>();
         if (cursor == null)
             return notas;
@@ -68,16 +67,16 @@ public class Notas {
                 do {
 
                     int indexID = cursor.getColumnIndex("_id");
-                    int indexMarca = cursor.getColumnIndex("texto");
-                    int indexModelo = cursor.getColumnIndex("dataCriacao");
-                    int indexPlaca = cursor.getColumnIndex("dataAlteracao");
+                    int indexTexto = cursor.getColumnIndex("texto");
+                    int indexDataCriacao = cursor.getColumnIndex("dataCriacao");
+                    int indexDataAlteracao = cursor.getColumnIndex("dataAlteracao");
 
                     int id = cursor.getInt(indexID);
-                    String marca = cursor.getString(indexMarca);
-                    Long modelo = cursor.getLong(indexModelo);
-                    Long placa = cursor.getLong(indexPlaca);
+                    String texto = cursor.getString(indexTexto);
+                    Long dataCriacao = cursor.getLong(indexDataCriacao);
+                    Long dataAlteracao = cursor.getLong(indexDataAlteracao);
 
-                    Nota veiculo = new Nota(id, marca, modelo, placa);
+                    Nota veiculo = new Nota(id, texto, dataCriacao, dataAlteracao);
                     notas.add(veiculo);
 
                 } while (cursor.moveToNext());
@@ -122,14 +121,14 @@ public class Notas {
     public List<String> recuperarTodosOrderByCriacao() {
         String queryReturnAll = "SELECT * FROM " + NOME_TABELA + " order by dataCriacao";
         Cursor cursor = bd.rawQuery(queryReturnAll, null);
-        List<Nota> notas = construirVeiculoPorCursor(cursor);
+        List<Nota> notas = construirNotaPorCursor(cursor);
         return convertEntitiesForString(notas);
     }
 
     public List<String> recuperarTodosOrderByAlteracao() {
         String queryReturnAll = "SELECT * FROM " + NOME_TABELA + " order by dataAlteracao";
         Cursor cursor = bd.rawQuery(queryReturnAll, null);
-        List<Nota> notas = construirVeiculoPorCursor(cursor);
+        List<Nota> notas = construirNotaPorCursor(cursor);
         return convertEntitiesForString(notas);
     }
 }
